@@ -1,0 +1,61 @@
+.users {
+  margin-top: 50px;
+}
+
+.header{
+  background-color: black;
+}
+
+
+.refresh {
+position: absolute !important;
+right: 0  !important;
+}
+
+
+.sidebar{
+  color: white;
+  background-color: #261a18 !important;
+}
+
+
+.main-content {
+  background-color: #f5f5f5 !important;
+}
+
+
+.header-strip{
+  padding: 20px;
+}
+
+.list {
+  padding: 20px;
+  font-style: oblique;
+  list-style-type: none !important;
+}
+
+
+/* .login-page{
+  
+} */
+
+.container {
+width: 100%;
+display: flex;
+}
+
+.one {
+  width: 50%;
+}
+
+.two {
+  width: 50%;
+}
+
+.image-centre{
+  margin-top: 30px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 120px;
+}
