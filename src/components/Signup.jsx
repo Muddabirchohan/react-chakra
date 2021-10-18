@@ -9,7 +9,6 @@ import {
     InputLeftElement,
     chakra,
     Box,
-    Link,
     Avatar,
     FormControl,
     FormHelperText,
@@ -19,7 +18,10 @@ import {
 import ErrorMessage from "./ErrorMessage";
 import { userSignup } from './MockApi';
 import React from "react"
-import { withRouter } from "react-router-dom";
+import {
+    Link,
+    withRouter
+} from "react-router-dom";
 import { history } from "./History";
 import axios from "axios";
 
@@ -40,17 +42,17 @@ function Signup() {
     const [isLoading, setIsLoading] = React.useState(false);
 
 
-    const addUserToDb = (imageData) =>{
-        
+    const addUserToDb = (imageData) => {
+
         let data = {
             name,
             email,
             password,
-            image : imageData.url
+            image: imageData.url
         }
 
-        let s = axios.post(`${process.env.REACT_APP_BASE_URL}users`,data)
-        console.log("a",s)
+        let s = axios.post(`${process.env.REACT_APP_BASE_URL}users`, data)
+        console.log("a", s)
     }
 
 
@@ -62,22 +64,22 @@ function Signup() {
             data.append("file", image)
             data.append("upload_preset", "gynssk1y")
             data.append("cloud_name", "chohan")
-            let imageUpload= fetch("https://api.cloudinary.com/v1_1/chohan/image/upload", { 
-            method:'post',
-            body:data
+            let imageUpload = fetch("https://api.cloudinary.com/v1_1/chohan/image/upload", {
+                method: 'post',
+                body: data
             }).then(resp => resp.json())
-            .then(data => {
-                 addUserToDb(data)
-            })
+                .then(data => {
+                    addUserToDb(data)
+                })
             // let signUpData = await userSignup({ name,email, password,image });
             // console.log("signup",signUpData)
             // setIsLoading(false);
-         
-            
-            
+
+
+
 
         } catch (error) {
-            console.log("error",error)
+            console.log("error", error)
             setError("error");
             setIsLoading(false);
             setEmail('');
@@ -106,7 +108,7 @@ function Signup() {
                 alignItems="center"
             >
                 <Avatar bg="teal.500" />
-                <Heading color="teal.400">Welcome To Chohanics</Heading>
+                <Heading color="teal.400">SIGN UP</Heading>
                 <Box minW={{ base: "90%", md: "468px" }}>
                     <form onSubmit={handleSubmit}>
                         {error && <ErrorMessage message={error} />}
@@ -139,7 +141,7 @@ function Signup() {
                             <FormControl>
                                 <InputGroup>
 
-                                <input type="file" onChange={(e) => setImage(e.target.files[0])}></input>
+                                    <input type="file" onChange={(e) => setImage(e.target.files[0])}></input>
 
                                 </InputGroup>
                             </FormControl>
@@ -186,9 +188,9 @@ function Signup() {
                 </Box>
             </Stack>
             <Box>
-                New to us?{" "}
-                <Link color="teal.500" href="#">
-                    Sign Up
+                Already a member ?
+                <Link color="teal.500" to="login">
+                    Log in
                 </Link>
             </Box>
         </Flex>

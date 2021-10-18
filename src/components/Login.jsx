@@ -9,7 +9,6 @@ import {
     InputLeftElement,
     chakra,
     Box,
-    Link,
     Avatar,
     FormControl,
     FormHelperText,
@@ -19,13 +18,15 @@ import {
 import ErrorMessage from "./ErrorMessage";
 import { userLogin } from './MockApi';
 import React from "react"
-import { withRouter } from "react-router-dom";
-import {history} from"./History";
+import {
+    withRouter, Link
+} from "react-router-dom";
+import { history } from "./History";
 
 
 
 
- function LoginForm() {
+function LoginForm() {
 
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -69,7 +70,7 @@ import {history} from"./History";
                 alignItems="center"
             >
                 <Avatar bg="teal.500" />
-                <Heading color="teal.400">Welcome To Chohanics</Heading>
+                <Heading color="teal.400">LOG IN</Heading>
                 <Box minW={{ base: "90%", md: "468px" }}>
                     <form onSubmit={handleSubmit}>
                         {error && <ErrorMessage message={error} />}
@@ -85,8 +86,8 @@ import {history} from"./History";
                       pointerEvents="none"
                       children={<CFaUserAlt color="gray.300" />}
                     /> */}
-                                    <Input type="email" placeholder="email address" 
-                                    onChange={event => setEmail(event.currentTarget.value)}
+                                    <Input type="email" placeholder="email address"
+                                        onChange={event => setEmail(event.currentTarget.value)}
 
                                     />
                                 </InputGroup>
@@ -137,7 +138,7 @@ import {history} from"./History";
             </Stack>
             <Box>
                 New to us?{" "}
-                <Link color="teal.500" href="#">
+                <Link color="teal.500" to="create-user">
                     Sign Up
                 </Link>
             </Box>

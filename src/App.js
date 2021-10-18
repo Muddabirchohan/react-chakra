@@ -13,11 +13,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import LoginForm from "./components/Login";
 import CreateUser from "./components/CreateUser";
 import Signup from "./components/Signup";
+import Login from "./components/Login";
+import { history } from "./components/History";
 
 
 const App = () => {
    console.log();
-return <Router>
+return <Router history={history}>
 
    <ToastContainer
    position="top-right"
@@ -31,28 +33,20 @@ return <Router>
    pauseOnHover
    /> 
 
-  {!window.location.href.includes("login") && !window.location.href.includes("create")? 
-  <Layout>
+
        <Switch>
           <Redirect exact={true} from={"/"} to={"/home"}/>
-          <Route path={"/home"}><Home/></Route>
-          <Route path={"/users"}><Users/></Route>
+          <Route path={"/home"}>  <Layout><Home/>  </Layout></Route>
+          <Route path={"/users"}><Layout><Users/></Layout></Route>
           <Route path={"/create-user"}><Signup/></Route>
+          <Route path={"/login"}><Login/></Route>
 
-          
+
        </Switch>
-   </Layout>
-:
-   <Switch>
-          <Redirect exact={true} from={"/"} to={"/home"}/>
-          <Route path={"/home"}><Home/></Route>
-          <Route path={"/users"}><Users/></Route>
-          <Route path={"/login"}><LoginForm/></Route>     
-          <Route path={"/create-user"}><Signup/></Route>
 
-   </Switch>
 
-}
+
+
    
  </Router>
 };

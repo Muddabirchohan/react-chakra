@@ -18,15 +18,15 @@ import {
 } from "@chakra-ui/react"
 import "./../App.css"
 import { toast } from 'react-toastify'
-import {history} from"./History";
+// import {history} from"./History";
 import UserDetails from "./UserDetails";
+import { withRouter } from "react-router";
 
 
 
 
 
-
-const Users = () => {
+const Users = ({history}) => {
 
   const [users, setUsersList] = React.useState([]);
   const [userLoader, setUsersLoader] = React.useState(true);
@@ -121,14 +121,11 @@ const Users = () => {
 
 
 
-      <Button onClick={createUser} > Create </Button>
-
-
+      <Button onClick={createUser} style={{float: "right"}}> Create </Button>
 
       <Box bg="red.400" color="white" className="header-strip">
         <h3> {headerName} List </h3> 
       </Box>
-
 
       <Input type="search" onChange={filterData} placeholder="search by name"/>
 
@@ -219,4 +216,4 @@ const Users = () => {
     </div>
   )
 };
-export default Users;
+export default withRouter(Users);
