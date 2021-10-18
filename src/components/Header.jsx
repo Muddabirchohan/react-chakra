@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import React from 'react';
 import {
   useColorMode,
   Switch,
@@ -6,7 +7,7 @@ import {
   Button,
   IconButton
 } from '@chakra-ui/react'
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./../App.css"
 
 // import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
@@ -17,53 +18,72 @@ export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   const [display, changeDisplay] = useState('none')
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+    setScrollPosition(position);
+  };
+
+  React.useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+
+
+  console.log("scroll", scrollPosition)
+
+
+
   return (
-      <div>
-    <Flex >
+    scrollPosition < 28 ?  <Flex className="header-parent">
       <Flex
         position="fixed"
         //  top="1rem"
-        right="30rem"
+        // right="30rem"
         align="center"
       >
         {/* Desktop */}
         <Flex
-          display={['none', 'none', 'flex','flex']}
+          display={['none', 'none', 'flex', 'flex']}
         >
           <Link to="/home">
             <Button
-              
+
               variant="ghost"
               aria-label="Home"
               my={5}
               w="100%"
             >
               Home
-                    </Button>
+            </Button>
           </Link>
 
           <Link to="/about">
             <Button
-              
+
               variant="ghost"
               aria-label="About"
               my={5}
               w="100%"
             >
               About
-                    </Button>
+            </Button>
           </Link>
 
           <Link to="/contact">
             <Button
-              
+
               variant="ghost"
               aria-label="Contact"
               my={5}
               w="100%"
             >
               Contact
-                    </Button>
+            </Button>
           </Link>
         </Flex>
 
@@ -72,9 +92,9 @@ export const Header = () => {
           aria-label="Open Menu"
           size="lg"
           mr={2}
-        //   icon={
-        //     <HamburgerIcon />
-        //   }
+          //   icon={
+          //     <HamburgerIcon />
+          //   }
           onClick={() => changeDisplay('flex')}
           display={['flex', 'flex', 'none', 'none']}
         />
@@ -116,44 +136,9 @@ export const Header = () => {
           flexDir="column"
           align="center"
         >
-          {/* <NextLink to="/">
-            <Button
-              
-              variant="ghost"
-              aria-label="Home"
-              my={5}
-              w="100%"
-            >
-              Home
-                    </Button>
-          </NextLink>
 
-          <NextLink href="/about">
-            <Button
-              
-              variant="ghost"
-              aria-label="About"
-              my={5}
-              w="100%"
-            >
-              About
-                    </Button>
-          </NextLink>
-
-          <NextLink href="/contact">
-            <Button
-              
-              variant="ghost"
-              aria-label="Contact"
-              my={5}
-              w="100%"
-            >
-              Contact
-            </Button>
-          </NextLink> */}
         </Flex>
       </Flex>
-    </Flex>
-    </div>
+    </Flex> : null
   )
 }

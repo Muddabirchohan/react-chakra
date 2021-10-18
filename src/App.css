@@ -2,9 +2,11 @@
   margin-top: 50px;
 }
 
-.header{
-  background-color: black;
+.header-parent {
+  width: 100%;
+  background-color: #f5f5f5;
 }
+
 
 
 .refresh {
@@ -14,8 +16,10 @@ right: 0  !important;
 
 
 .sidebar{
+  margin-top: 80px;
   color: white;
-  background-color: #261a18 !important;
+  background-color: #5f9ea0 !important;
+  height: 100vh;
 }
 
 
@@ -26,14 +30,20 @@ right: 0  !important;
 
 .header-strip{
   padding: 20px;
+  background-color: cadetblue !important;
 }
 
 .list {
   padding: 20px;
-  font-style: oblique;
+  /* font-style: oblique; */
   list-style-type: none !important;
 }
 
+li:hover {
+  background-color: #f5f5f5;
+  color: black;
+  font-weight: 1200;
+}
 
 /* .login-page{
   
@@ -58,4 +68,10 @@ display: flex;
   margin-left: auto;
   margin-right: auto;
   width: 120px;
+}
+
+
+.table-parent {
+  width: 300px !important;
+  overflow: scroll !important;
 }

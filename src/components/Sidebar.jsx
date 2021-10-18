@@ -7,12 +7,10 @@ const SideBar = (props) => {
 return <div >
 <UnorderedList className="list">
 
-  <Box bg="red.400" color="white" height="500">
-  <ListItem><li><Link to={"/home"}>Home</Link></li></ListItem>
-  <ListItem><li><Link to={"/users"}>Users</Link></li></ListItem>
-  <ListItem><li><Link to={"/users"}>Jobs</Link></li></ListItem>
-  <ListItem><li><Link to={"/users"}>Account</Link></li></ListItem>
-  </Box>
+  <ListItem><Link to={"/home"}>Home</Link></ListItem>
+  <ListItem><Link to={"/users"}>Users</Link></ListItem>
+  <ListItem><Link to={"/users"}>Jobs</Link></ListItem>
+  <ListItem><Link to={"/users"}>Account</Link></ListItem>
 
 </UnorderedList>
 

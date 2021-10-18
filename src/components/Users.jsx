@@ -13,7 +13,8 @@ import {
   TableCaption,
   Button,
   Stack,
-  Box
+  Box,
+  Input
 } from "@chakra-ui/react"
 import "./../App.css"
 import { toast } from 'react-toastify'
@@ -33,6 +34,8 @@ const Users = () => {
   const [url, setUrl] = React.useState("");
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [detail,setDetails] = React.useState({});
+  const [searched,setSearched] = React.useState('');
+
   
   const handleCloseModal = () => {
     setIsOpen(false)
@@ -105,7 +108,11 @@ const Users = () => {
     history.push("/create-user")
   }
 
+  const filterData = (e) => {
+    setSearched(e.target.value)
+  }
 
+  let filtered = users.filter(item => item.name.includes(searched))
 
 
   return (
@@ -119,16 +126,17 @@ const Users = () => {
 
 
       <Box bg="red.400" color="white" className="header-strip">
-        <h3> {headerName} List </h3>
+        <h3> {headerName} List </h3> 
       </Box>
 
 
+      <Input type="search" onChange={filterData} placeholder="search by name"/>
 
-      <Box overflowY="auto">
+      <Box overflowX="auto">
 
         <Table variant="simple">
 
-          {users && users.length === 0 && <TableCaption>No Data Found</TableCaption>}
+          {filtered && filtered.length === 0 && <TableCaption>No Data Found</TableCaption>}
           {userLoader &&
             <Spinner style={{
               marginLeft: 'auto',
@@ -148,7 +156,7 @@ const Users = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {users && users.map((item, index) => {
+            {filtered && filtered.map((item, index) => {
 
 
 
