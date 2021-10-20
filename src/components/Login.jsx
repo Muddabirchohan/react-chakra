@@ -22,8 +22,30 @@ import {
     withRouter, Link
 } from "react-router-dom";
 import { history } from "./History";
+import axios from 'axios';
 
 
+
+async function userLoginDb(email,password){
+    const loggedIn = await axios.post(`${process.env.REACT_APP_BASE_URL}login`,
+    {name:email,password}  
+    ).catch(ex => {
+        console.log("exception", ex)
+      })
+
+
+
+    if(loggedIn){
+        let user;
+        user={
+            userdata: loggedIn.data,
+            token: loggedIn.token
+        }
+        localStorage.setItem("user",JSON.stringify(user))
+        history.push("/users")
+    }
+  
+}
 
 
 function LoginForm() {
@@ -40,11 +62,13 @@ function LoginForm() {
         event.preventDefault();
         setIsLoading(true);
         try {
-            await userLogin({ email, password });
+            // await userLogin({ email, password });
+            await userLoginDb(email,password);
             setIsLoading(false);
-            history.push("/users")
+            // history.push("/users")
 
         } catch (error) {
+            console.log("err",error)
             setError('Invalid username or password');
             setIsLoading(false);
             setEmail('');
@@ -86,7 +110,7 @@ function LoginForm() {
                       pointerEvents="none"
                       children={<CFaUserAlt color="gray.300" />}
                     /> */}
-                                    <Input type="email" placeholder="email address"
+                                    <Input type="name" placeholder="email address"
                                         onChange={event => setEmail(event.currentTarget.value)}
 
                                     />
