@@ -9,8 +9,7 @@ return <div >
 
   <ListItem><Link to={"/home"}>Home</Link></ListItem>
   <ListItem><Link to={"/users"}>Users</Link></ListItem>
-  <ListItem><Link to={"/users"}>Jobs</Link></ListItem>
-  <ListItem><Link to={"/users"}>Account</Link></ListItem>
+  <ListItem><Link to={"/posts"}>Posts</Link></ListItem>
 
 </UnorderedList>
 

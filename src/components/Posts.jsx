@@ -19,23 +19,25 @@ import {
 import "./../App.css"
 import { toast } from 'react-toastify'
 // import {history} from"./History";
-import UserDetails from "./UserDetails";
 import { withRouter } from "react-router";
+import postDetails from "./PostDetails";
+import PostDetails from "./PostDetails";
 
 
 
 
-const Users = ({ history }) => {
 
-  const [users, setUsersList] = React.useState([]);
-  const [userLoader, setUsersLoader] = React.useState(true);
+const Posts = ({history}) => {
+
+  const [posts, setPostsList] = React.useState([]);
+  const [userLoader, setPostsLoader] = React.useState(true);
   const [headerName, setHeaderName] = React.useState(window.location.href.split("/")[3]);
   const [url, setUrl] = React.useState("");
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [detail, setDetails] = React.useState({});
-  const [searched, setSearched] = React.useState('');
+  const [detail,setDetails] = React.useState({});
+  const [searched,setSearched] = React.useState('');
 
-
+  
   const handleCloseModal = () => {
     setIsOpen(false)
   }
@@ -46,22 +48,24 @@ const Users = ({ history }) => {
   }
 
 
-
+  
 
 
   React.useEffect(() => {
-    getUsers()
+    getPosts()
   }, [])
 
 
-  const getUsers = async () => {
-    let fetchUsers;
+  const getPosts = async () => {
+    let fetchPosts;
+    let postId = JSON.parse(localStorage.getItem("user")).userdata.user._id
+
     // setInterval(async () => {
 
-    fetchUsers = await axios.get(`${process.env.REACT_APP_BASE_URL}users`).catch(ex => {
+    fetchPosts = await axios.get(`${process.env.REACT_APP_BASE_URL}posts/${postId}`).catch(ex => {
       console.log("ex", ex)
-      setUsersList([])
-      setUsersLoader(false);
+      setPostsList([])
+      setPostsLoader(false);
     })
 
 
@@ -69,25 +73,26 @@ const Users = ({ history }) => {
 
 
 
-    if (fetchUsers) {
-      await setUsersLoader(false);
-      await setUsersList(fetchUsers.data)
+    if (fetchPosts) {
+      await setPostsLoader(false);
+      await setPostsList(fetchPosts.data)
     }
   }
 
 
   const getLatestUsers = async () => {
-    await getUsers()
+    await getPosts()
   }
 
   const deleteUser = async (id) => {
     // app.delete('/users/:userId', users.delete);
+    const deleteUser = await axios.delete(`${process.env.REACT_APP_BASE_URL}users/${id}`).catch(ex => {
+      console.log("ex", ex)
+    })
 
-    try {
-      await axios.delete(`${process.env.REACT_APP_BASE_URL}users/${id}`);
 
-    } catch (e) {
-      toast(e?.response?.data?.message, {
+    if (deleteUser) {
+      toast(deleteUser?.data?.message, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -96,41 +101,34 @@ const Users = ({ history }) => {
         draggable: true,
         progress: undefined,
       });
-      await getUsers()
+      await getPosts()
     }
-
-
-
-
 
   }
 
 
-  const createUser = () => {
-    history.push("/create-user")
+  const createPost = () =>{
+    history.push("/create-post")
   }
 
   const filterData = (e) => {
     setSearched(e.target.value)
   }
 
-  let filtered = users.filter(item => item.name.includes(searched))
+  let filtered = posts.filter(item => item.name.includes(searched))
 
 
   return (
     <div className="users">
 
-      <Button onClick={createUser} style={{ float: "right" }}> Logout </Button>
 
-
-
-      <Button onClick={createUser} style={{ float: "right" }}> Create </Button>
+      <Button onClick={createPost} style={{float: "right"}}> Create </Button>
 
       <Box bg="red.400" color="white" className="header-strip">
-        <h3> {headerName} List </h3>
+        <h3> {headerName} List </h3> 
       </Box>
 
-      <Input type="search" onChange={filterData} placeholder="search by name" />
+      <Input type="search" onChange={filterData} placeholder="search by name"/>
 
       <Box overflowX="auto">
 
@@ -148,8 +146,6 @@ const Users = ({ history }) => {
             <Tr>
               <Th>Name</Th>
               <Th>Description</Th>
-              <Th>Gender</Th>
-              <Th>Age</Th>
               <Th>Active</Th>
               <Th>Status</Th>
               <Th>Actions</Th>
@@ -161,10 +157,9 @@ const Users = ({ history }) => {
 
 
               return <Tr key={index}>
-                <Td onClick={() => handleOPenModal(item)}>{item.name ?? "-"}</Td>
+                <Td onClick={()=>handleOPenModal(item)}>{item.name ?? "-"}</Td>
                 <Td>{item.description ?? "-"}</Td>
-                <Td>{item.gender ?? "-"}</Td>
-                <Td>{item.age ?? "-"}</Td>
+
                 <Td>{item.isActive ?? "-" ? "true" : "false"}</Td>
                 <Td>{item.status ?? "-" ? "true" : "false"}</Td>
                 <Td>
@@ -209,14 +204,14 @@ const Users = ({ history }) => {
 
 
 
-      <UserDetails
-        isModalOpen={modalIsOpen}
-        closeModal={handleCloseModal}
-        userDetail={detail}
+      <PostDetails 
+      isModalOpen={modalIsOpen}
+      closeModal={handleCloseModal}
+      userDetail={detail}
       />
 
 
     </div>
   )
 };
-export default withRouter(Users);
+export default withRouter(Posts);

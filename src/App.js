@@ -15,6 +15,8 @@ import CreateUser from "./components/CreateUser";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import { history } from "./components/History";
+import Posts from "./components/Posts";
+import CreatePost from "./components/CreatePost";
 
 
 const App = () => {
@@ -38,7 +40,9 @@ return <Router history={history}>
           <Redirect exact={true} from={"/"} to={"/home"}/>
           <Route path={"/home"}>  <Layout><Home/>  </Layout></Route>
           <Route path={"/users"}><Layout><Users/></Layout></Route>
+          <Route path={"/posts"}><Layout><Posts/></Layout></Route>
           <Route path={"/create-user"}><Signup/></Route>
+          <Route path={"/create-post"}><Layout><CreatePost/></Layout></Route>
           <Route path={"/login"}><Login/></Route>
 
 

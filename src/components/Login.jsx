@@ -14,6 +14,7 @@ import {
     FormHelperText,
     InputRightElement
 } from "@chakra-ui/react";
+import { toast } from "react-toastify";
 
 import ErrorMessage from "./ErrorMessage";
 import { userLogin } from './MockApi';
@@ -29,11 +30,9 @@ import axios from 'axios';
 async function userLoginDb(email,password){
     const loggedIn = await axios.post(`${process.env.REACT_APP_BASE_URL}login`,
     {name:email,password}  
-    ).catch(ex => {
-        console.log("exception", ex)
-      })
+    )
 
-
+      console.log("logged in ",loggedIn)
 
     if(loggedIn){
         let user;
@@ -63,16 +62,26 @@ function LoginForm() {
         setIsLoading(true);
         try {
             // await userLogin({ email, password });
-            await userLoginDb(email,password);
+            let res = await userLoginDb(email,password);
             setIsLoading(false);
             // history.push("/users")
 
-        } catch (error) {
-            console.log("err",error)
+        } catch (e) {
+            console.log("errorzzzzz",e?.response?.data?.message)
+            toast(e.response.data.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+
             setError('Invalid username or password');
             setIsLoading(false);
-            setEmail('');
-            setPassword('');
+            // setEmail('');
+            // setPassword('');
         }
     };
 
