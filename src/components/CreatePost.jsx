@@ -43,6 +43,7 @@ function CreatePost() {
 
     const addUserToDb = async (imageData) => {
         let postId = JSON.parse(localStorage.getItem("user")).userdata.user._id
+        let token = JSON.parse(localStorage.getItem("user"))?.userdata?.token
 
 
         let data = {
@@ -52,8 +53,11 @@ function CreatePost() {
             userId: postId
         }
 
-        let s = await axios.post(`${process.env.REACT_APP_BASE_URL}posts`, data)
-        console.log("a", s)
+        await axios.post(`${process.env.REACT_APP_BASE_URL}posts`, data, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+              }
+        })
     }
 
 
@@ -65,14 +69,18 @@ function CreatePost() {
             data.append("file", image)
             data.append("upload_preset", "gynssk1y")
             data.append("cloud_name", "chohan")
-            let imageUpload = fetch("https://api.cloudinary.com/v1_1/chohan/image/upload", {
+            fetch("https://api.cloudinary.com/v1_1/chohan/image/upload", {
                 method: 'post',
                 body: data
             }).then(resp => resp.json())
                 .then(data => {
                     addUserToDb(data)
-                })
+                    history.push("/posts")
 
+                }).catch(ex =>  {
+                    
+                    console.log("ex",ex)
+                })                
         } catch (error) {
             console.log("error", error)
             setError("error");

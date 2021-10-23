@@ -110,6 +110,11 @@ const Users = ({ history }) => {
     history.push("/create-user")
   }
 
+
+  const logoutUser = () => {
+    localStorage.removeItem("user")
+  }
+
   const filterData = (e) => {
     setSearched(e.target.value)
   }
@@ -120,7 +125,7 @@ const Users = ({ history }) => {
   return (
     <div className="users">
 
-      <Button onClick={createUser} style={{ float: "right" }}> Logout </Button>
+      <Button onClick={logoutUser} style={{ float: "right" }}> Logout </Button>
 
 
 

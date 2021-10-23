@@ -8,12 +8,10 @@ return <div >
 <UnorderedList className="list">
 
   <ListItem><Link to={"/home"}>Home</Link></ListItem>
-  <ListItem><Link to={"/users"}>Users</Link></ListItem>
+  {/* <ListItem><Link to={"/users"}>Users</Link></ListItem> */}
   <ListItem><Link to={"/posts"}>Posts</Link></ListItem>
+  </UnorderedList>
 
-</UnorderedList>
-
- 
 </div>
 };
 

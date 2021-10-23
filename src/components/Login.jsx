@@ -40,8 +40,18 @@ async function userLoginDb(email,password){
             userdata: loggedIn.data,
             token: loggedIn.token
         }
+        toast("User LoggedIn Succesfully", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        
         localStorage.setItem("user",JSON.stringify(user))
-        history.push("/users")
+        history.push("/posts")
     }
   
 }

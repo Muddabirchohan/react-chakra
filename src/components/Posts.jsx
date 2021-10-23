@@ -58,18 +58,37 @@ const Posts = ({history}) => {
 
   const getPosts = async () => {
     let fetchPosts;
-    let postId = JSON.parse(localStorage.getItem("user")).userdata.user._id
+    let postId = localStorage.getItem("user") && JSON.parse(localStorage.getItem("user"))?.userdata?.user?._id
+    let token = JSON.parse(localStorage.getItem("user"))?.userdata?.token
 
-    // setInterval(async () => {
+   
+    fetchPosts = await axios.get(`${process.env.REACT_APP_BASE_URL}posts/${postId}`,{
+    headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }
+      ).catch(ex => {
 
-    fetchPosts = await axios.get(`${process.env.REACT_APP_BASE_URL}posts/${postId}`).catch(ex => {
-      console.log("ex", ex)
+        toast(ex?.response?.data?.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+
+
+      console.log("ex", ex.response)
       setPostsList([])
       setPostsLoader(false);
+      if(ex.response.data.message == "You are not authorized to perform this action."){
+        history.push("/login")
+      }
+      
+
     })
-
-
-    // },3000)
 
 
 
@@ -107,6 +126,13 @@ const Posts = ({history}) => {
   }
 
 
+  const logoutUser = () => {
+    localStorage.removeItem("user");
+    window.location.reload();
+
+  }
+
+
   const createPost = () =>{
     history.push("/create-post")
   }
@@ -121,6 +147,7 @@ const Posts = ({history}) => {
   return (
     <div className="users">
 
+      <Button onClick={logoutUser} style={{float: "right"}}> Log Out </Button>
 
       <Button onClick={createPost} style={{float: "right"}}> Create </Button>
 
