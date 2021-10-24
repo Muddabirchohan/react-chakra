@@ -40,7 +40,7 @@ async function userLoginDb(email,password){
             userdata: loggedIn.data,
             token: loggedIn.token
         }
-        toast("User LoggedIn Succesfully", {
+        toast.success('🦄 Wow so easy!', {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -48,7 +48,7 @@ async function userLoginDb(email,password){
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-          });
+            });
         
         localStorage.setItem("user",JSON.stringify(user))
         history.push("/posts")

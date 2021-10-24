@@ -24,6 +24,8 @@ import {
 } from "react-router-dom";
 import { history } from "./History";
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 
 
@@ -34,30 +36,56 @@ function CreatePost() {
 
     const handleShowClick = () => setShowPassword(!showPassword);
 
-    const [description, setDescriptio ] = React.useState('');
+    const [description, setDescription ] = React.useState('');
     const [name, setName] = React.useState('');
     const [image, setImage] = React.useState('');
     const [error, setError] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false);
 
 
-    const addUserToDb = async (imageData) => {
-        let postId = JSON.parse(localStorage.getItem("user")).userdata.user._id
+    const addPostToDb = async (imageData) => {
+        let postId = JSON.parse(localStorage.getItem("user"))?.userdata?.user?._id
         let token = JSON.parse(localStorage.getItem("user"))?.userdata?.token
 
 
         let data = {
             name,
             description,
-            image: imageData.url,
+            image: imageData,
             userId: postId
         }
 
-        await axios.post(`${process.env.REACT_APP_BASE_URL}posts`, data, {
+        let res = await axios.post(`${process.env.REACT_APP_BASE_URL}posts`, data, {
             headers: {
                 'Authorization': `Bearer ${token}`
               }
+        }).catch(e => {
+            const { response: {data : 
+                {message}
+                      }} = e
+                      toast(message, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                      });
         })
+
+        if(res && res.status === 200){
+            toast("Post Created Succesfully", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            history.push("/posts")
+        }
     }
 
 
@@ -69,25 +97,41 @@ function CreatePost() {
             data.append("file", image)
             data.append("upload_preset", "gynssk1y")
             data.append("cloud_name", "chohan")
-            fetch("https://api.cloudinary.com/v1_1/chohan/image/upload", {
-                method: 'post',
-                body: data
-            }).then(resp => resp.json())
-                .then(data => {
-                    addUserToDb(data)
-                    history.push("/posts")
+            let res = await axios.post("https://api.cloudinary.com/v1_1/chohan/image/upload", data
+            );   
+            
+            if(res && res.status === 200){
+                const {data : {url}} = res
+                addPostToDb(url)
+            }
 
-                }).catch(ex =>  {
-                    
-                    console.log("ex",ex)
-                })                
         } catch (error) {
-            console.log("error", error)
+            const { response : 
+                {data : 
+                {error : 
+                {message
+                }
+                    }
+                     }
+                      } = error
+            
+                      toast(message, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                      });
             setError("error");
             setIsLoading(false);
-            setDescriptio('');
+            // setDescription('');
             // setPassword('');
         }
+        
+            //  history.push("/posts")
+
     };
 
 
@@ -135,7 +179,7 @@ function CreatePost() {
                                 <InputGroup>
 
                                     <Input type="text" placeholder="description"
-                                        onChange={event => setDescriptio(event.currentTarget.value)}
+                                        onChange={event => setDescription(event.currentTarget.value)}
 
                                     />
                                 </InputGroup>
